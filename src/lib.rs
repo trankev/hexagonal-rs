@@ -1,3 +1,5 @@
+#![feature(async_closure)]
+
 pub mod domain;
 pub mod transport_layers;
 

@@ -1,7 +1,7 @@
 use crate::domain;
 
 #[async_trait::async_trait]
-pub trait ABBService {
+pub trait ABBService: Clone + Send {
     type RequestData;
     type ResponseData: serde::Serialize;
 

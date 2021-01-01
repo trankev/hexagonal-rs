@@ -3,6 +3,7 @@ use crate::domain::services;
 
 pub type RequestDataBuilder<Service: services::ABBService> = fn(actix_web::HttpRequest) -> Service::RequestData;
 
+#[derive(Clone)]
 pub struct ABBHandler<Service>
 where
     Service: services::ABBService,
