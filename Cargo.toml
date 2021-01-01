@@ -9,3 +9,4 @@ edition = "2018"
 [dependencies]
 serde = { version = "*", features = ["derive"] }
 async-trait = "*"
+actix-web = "*"
