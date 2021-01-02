@@ -2,8 +2,8 @@ use crate::domain;
 use crate::domain::services;
 use crate::transport_layers::rest_api;
 
-pub type RequestDataBuilder<Service: services::ABBService> = fn(actix_web::HttpRequest) -> Service::RequestData;
-pub type ResponseBuilder<Service: services::ABBService> = fn(domain::Response<Service::ResponseData>) -> actix_web::HttpResponse;
+pub type RequestDataBuilder<Service> = fn(actix_web::HttpRequest) -> <Service as services::ABBService>::RequestData;
+pub type ResponseBuilder<Service> = fn(domain::Response<<Service as services::ABBService>::ResponseData>) -> actix_web::HttpResponse;
 
 #[derive(Clone)]
 pub struct ABBHandler<Service>
