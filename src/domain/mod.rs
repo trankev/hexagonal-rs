@@ -1,7 +1,7 @@
 mod messages;
-pub mod services;
 mod requests;
 mod responses;
+pub mod services;
 
 pub use messages::Message;
 pub use requests::Request;

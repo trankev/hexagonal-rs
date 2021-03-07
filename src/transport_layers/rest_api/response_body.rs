@@ -4,7 +4,7 @@ use crate::transport_layers::rest_api;
 #[derive(serde::Serialize)]
 pub struct ResponseBody<Data>
 where
-    Data: serde::Serialize
+    Data: serde::Serialize,
 {
     data: Option<Data>,
     messages: Vec<domain::Message>,
@@ -13,9 +13,13 @@ where
 
 impl<Data> ResponseBody<Data>
 where
-    Data: serde::Serialize
+    Data: serde::Serialize,
 {
-    pub fn new(data: Option<Data>, messages: Option<Vec<domain::Message>>, links: Option<Vec<rest_api::HttpLink>>) -> ResponseBody<Data> {
+    pub fn new(
+        data: Option<Data>,
+        messages: Option<Vec<domain::Message>>,
+        links: Option<Vec<rest_api::HttpLink>>,
+    ) -> ResponseBody<Data> {
         ResponseBody {
             data,
             messages: messages.unwrap_or(Vec::new()),
@@ -23,7 +27,10 @@ where
         }
     }
 
-    pub fn from_response(response: domain::Response<Data>, links: Option<Vec<rest_api::HttpLink>>) -> ResponseBody<Data> {
+    pub fn from_response(
+        response: domain::Response<Data>,
+        links: Option<Vec<rest_api::HttpLink>>,
+    ) -> ResponseBody<Data> {
         ResponseBody {
             data: response.data,
             messages: response.messages,

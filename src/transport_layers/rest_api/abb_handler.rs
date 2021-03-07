@@ -2,8 +2,11 @@ use crate::domain;
 use crate::domain::services;
 use crate::transport_layers::rest_api;
 
-pub type RequestDataBuilder<Service> = fn(actix_web::HttpRequest) -> <Service as services::ABBService>::RequestData;
-pub type ResponseBuilder<Service> = fn(domain::Response<<Service as services::ABBService>::ResponseData>) -> actix_web::HttpResponse;
+pub type RequestDataBuilder<Service> =
+    fn(actix_web::HttpRequest) -> <Service as services::ABBService>::RequestData;
+pub type ResponseBuilder<Service> = fn(
+    domain::Response<<Service as services::ABBService>::ResponseData>,
+) -> actix_web::HttpResponse;
 
 #[derive(Clone)]
 pub struct ABBHandler<Service>
@@ -33,7 +36,7 @@ where
 
     pub async fn handle(&self, actix_request: actix_web::HttpRequest) -> impl actix_web::Responder {
         let data = (self.request_data_builder)(actix_request);
-        let request = domain::Request {data};
+        let request = domain::Request { data };
         let response = match self.service.run(request).await {
             Ok(response) => response,
             Err(_err) => {
@@ -45,12 +48,11 @@ where
     }
 }
 
-fn do_nothing(_actix_request: actix_web::HttpRequest) -> () {
-
-}
+fn do_nothing(_actix_request: actix_web::HttpRequest) -> () {}
 
 fn body_response<Data>(response: domain::Response<Data>) -> actix_web::HttpResponse
-where Data: serde::Serialize
+where
+    Data: serde::Serialize,
 {
     let body = rest_api::ResponseBody::from_response(response, None);
     actix_web::HttpResponse::Ok().json(body)
@@ -58,10 +60,11 @@ where Data: serde::Serialize
 
 impl<Service> ABBHandler<Service>
 where
-    Service: services::ABBService<RequestData=()>,
+    Service: services::ABBService<RequestData = ()>,
 {
     pub fn without_request(
-        service: Service, response_builder: Option<ResponseBuilder<Service>>
+        service: Service,
+        response_builder: Option<ResponseBuilder<Service>>,
     ) -> ABBHandler<Service> {
         ABBHandler {
             service,

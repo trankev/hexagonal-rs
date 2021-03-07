@@ -7,9 +7,6 @@ pub trait ABBService: Clone + Send {
 
     async fn run(
         &self,
-        request: domain::Request<Self::RequestData>
-    ) -> Result<
-        domain::Response<Self::ResponseData>,
-        Box<dyn std::error::Error>
-    >;
+        request: domain::Request<Self::RequestData>,
+    ) -> Result<domain::Response<Self::ResponseData>, Box<dyn std::error::Error>>;
 }
